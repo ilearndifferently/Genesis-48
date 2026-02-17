@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genesis 48: Interactive Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-neutral: #fcfbf9;
+            --text-dark: #3e2723;
+            --accent-gold: #b8860b;
+            --border-sand: #d7ccc8;
+        }
+        body {
+            background-color: var(--bg-neutral);
+            color: #333;
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            height: 300px;
+        }
+        .hand-marker { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .active-tab-btn {
+            background-color: var(--text-dark);
+            color: white;
+            border-color: var(--text-dark);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Sticky Tab Navigation -->
+    <header class="bg-[#3e2723] text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="py-4 flex justify-between items-center border-b border-[#5d4037]">
+                <div class="text-xl font-bold tracking-tight">GENESIS 48 <span class="font-light text-[#d7ccc8]">STUDY</span></div>
+                <div class="text-[10px] uppercase tracking-widest text-[#d7ccc8] hidden md:block">The Reversal of the Firstborn</div>
+            </div>
+            <nav class="flex overflow-x-auto no-scrollbar py-3 space-x-2">
+                <button onclick="switchTab('context')" id="btn-context" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition active-tab-btn">Context</button>
+                <button onclick="switchTab('cast')" id="btn-cast" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition">Cast</button>
+                <button onclick="switchTab('story')" id="btn-story" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition">Story</button>
+                <button onclick="switchTab('act')" id="btn-act" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition">The Act</button>
+                <button onclick="switchTab('pattern')" id="btn-pattern" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition">Pattern</button>
+                <button onclick="switchTab('links')" id="btn-links" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition">OT Links</button>
+                <button onclick="switchTab('reflection')" id="btn-reflection" class="tab-btn whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase rounded-full border border-transparent hover:bg-[#5d4037] transition">Reflect</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full">
+
+        <!-- TAB: Context -->
+        <div id="context" class="tab-content active">
+            <div class="bg-white p-8 md:p-12 rounded-[2rem] shadow-sm border border-[#d7ccc8]">
+                <h2 class="text-3xl font-serif font-bold text-[#3e2723] mb-6">Historical & Theological Context</h2>
+                <p class="text-lg text-gray-600 leading-relaxed mb-8">
+                    As Jacob's life nears its end in Egypt, he performs a nation-defining ceremony. By adopting Joseph’s sons, he elevates them to full tribal status, replacing Joseph's single share with a double portion. This act sets the stage for the geography of the Promised Land and the future power dynamics of Israel.
+                </p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-[#fcfbf9] p-6 rounded-2xl border border-[#d7ccc8]">
+                        <h4 class="font-bold text-[#b8860b] mb-2 uppercase text-xs tracking-widest">Significance</h4>
+                        <p class="text-sm text-gray-600">This story proves that God's covenant is passed through sovereign choice, not just biology.</p>
+                    </div>
+                    <div class="bg-[#fcfbf9] p-6 rounded-2xl border border-[#d7ccc8]">
+                        <h4 class="font-bold text-[#b8860b] mb-2 uppercase text-xs tracking-widest">Themes</h4>
+                        <p class="text-sm text-gray-600">Adoption, Divine Election, the reversal of human hierarchy, and the faithfulness of God.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Cast -->
+        <div id="cast" class="tab-content">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-[#3e2723]">The Four Participants</h2>
+                <p class="text-gray-500 mt-2 italic">Select a character to understand their role in the blessing.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div onclick="showChar('jacob')" class="bg-white p-6 rounded-2xl shadow-sm border border-[#d7ccc8] hover:border-[#b8860b] cursor-pointer transition text-center group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">👴🏼</div>
+                    <h4 class="font-bold text-sm">Jacob</h4>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Patriarch</p>
+                </div>
+                <div onclick="showChar('joseph')" class="bg-white p-6 rounded-2xl shadow-sm border border-[#d7ccc8] hover:border-[#b8860b] cursor-pointer transition text-center group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">👑</div>
+                    <h4 class="font-bold text-sm">Joseph</h4>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Bridge</p>
+                </div>
+                <div onclick="showChar('manasseh')" class="bg-white p-6 rounded-2xl shadow-sm border border-[#d7ccc8] hover:border-[#b8860b] cursor-pointer transition text-center group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">1️⃣</div>
+                    <h4 class="font-bold text-sm">Manasseh</h4>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Firstborn</p>
+                </div>
+                <div onclick="showChar('ephraim')" class="bg-white p-6 rounded-2xl shadow-sm border border-[#d7ccc8] hover:border-[#b8860b] cursor-pointer transition text-center group">
+                    <div class="text-4xl mb-4 group-hover:scale-110 transition">2️⃣</div>
+                    <h4 class="font-bold text-sm">Ephraim</h4>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Younger</p>
+                </div>
+            </div>
+            <div id="castDetail" class="mt-8 p-10 bg-white rounded-[2rem] hidden fade-in text-center border-2 border-[#efebe9]">
+                <p id="castDetailText" class="text-lg text-gray-700 leading-relaxed font-serif"></p>
+            </div>
+        </div>
+
+        <!-- TAB: Story -->
+        <div id="story" class="tab-content">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-[#3e2723]">Narrative Journey</h2>
+                    <p class="text-gray-500 mt-2">Walk through the timeline of Genesis 48.</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2 mb-10">
+                    <button onclick="showStep(0)" class="step-btn px-4 py-2 bg-white rounded-lg border border-[#d7ccc8] text-[10px] font-bold uppercase hover:bg-[#efebe9]">1. Call</button>
+                    <button onclick="showStep(1)" class="step-btn px-4 py-2 bg-white rounded-lg border border-[#d7ccc8] text-[10px] font-bold uppercase hover:bg-[#efebe9]">2. Adopt</button>
+                    <button onclick="showStep(2)" class="step-btn px-4 py-2 bg-white rounded-lg border border-[#d7ccc8] text-[10px] font-bold uppercase hover:bg-[#efebe9]">3. Meet</button>
+                    <button onclick="showStep(3)" class="step-btn px-4 py-2 bg-white rounded-lg border border-[#d7ccc8] text-[10px] font-bold uppercase hover:bg-[#efebe9]">4. Cross</button>
+                    <button onclick="showStep(4)" class="step-btn px-4 py-2 bg-white rounded-lg border border-[#d7ccc8] text-[10px] font-bold uppercase hover:bg-[#efebe9]">5. Bless</button>
+                </div>
+                <div id="storyDisplay" class="bg-white p-12 rounded-[2.5rem] border border-[#d7ccc8] shadow-sm min-h-[300px] flex items-center justify-center text-center">
+                    <!-- Content Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Act -->
+        <div id="act" class="tab-content">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3e2723]">The Crossed Hands</h2>
+                <p class="text-gray-500 max-w-md mx-auto mt-2">Observe how Jacob's right hand (the primary blessing) is guided by prophecy rather than sight.</p>
+            </div>
+            <div class="bg-[#2d1b18] p-10 rounded-[3rem] shadow-2xl relative border border-[#5d4037] max-w-[500px] mx-auto h-[450px]">
+                <div class="absolute top-10 left-1/2 -translate-x-1/2 text-center text-white">
+                    <div class="text-5xl mb-1">👴🏼</div>
+                    <div class="font-bold uppercase tracking-tighter text-[10px] opacity-60">Jacob</div>
+                </div>
+                <div class="absolute inset-0 pt-36 px-12">
+                    <div id="hR" class="hand-marker absolute w-14 h-14 bg-[#b8860b] rounded-full flex items-center justify-center shadow-lg border-2 border-white text-2xl">🖐️
+                        <div class="absolute -top-7 text-[8px] font-black text-yellow-400 tracking-widest">RIGHT</div>
+                    </div>
+                    <div id="hL" class="hand-marker absolute w-14 h-14 bg-gray-400 rounded-full flex items-center justify-center shadow-lg border-2 border-white text-2xl">🖐️
+                        <div class="absolute -top-7 text-[8px] font-black text-gray-300 tracking-widest">LEFT</div>
+                    </div>
+                </div>
+                <div class="absolute bottom-12 left-0 w-full flex justify-around px-8">
+                    <div class="text-center w-28">
+                        <div class="text-2xl mb-1 text-white">1️⃣</div>
+                        <div class="font-bold text-white text-[10px] uppercase">Manasseh</div>
+                        <div id="lblM" class="mt-2 text-[8px] py-1 px-2 rounded font-bold uppercase">...</div>
+                    </div>
+                    <div class="text-center w-28">
+                        <div class="text-2xl mb-1 text-white">2️⃣</div>
+                        <div class="font-bold text-white text-[10px] uppercase">Ephraim</div>
+                        <div id="lblE" class="mt-2 text-[8px] py-1 px-2 rounded font-bold uppercase">...</div>
+                    </div>
+                </div>
+                <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-4 w-full justify-center">
+                    <button onclick="simAct('tradition')" class="bg-[#5d4037] text-white text-[10px] font-black px-6 py-4 rounded-full uppercase tracking-widest shadow-lg">Joseph's Logic</button>
+                    <button onclick="simAct('revelation')" class="bg-[#b8860b] text-white text-[10px] font-black px-6 py-4 rounded-full uppercase tracking-widest shadow-xl scale-110">Jacob's Vision</button>
+                </div>
+            </div>
+            <div class="mt-24 text-center font-serif text-2xl text-[#3e2723] opacity-80 italic" id="actQuote">"I know, my son, I know."</div>
+        </div>
+
+        <!-- TAB: Pattern -->
+        <div id="pattern" class="tab-content">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3e2723]">The Genesis Design Pattern</h2>
+                <p class="text-gray-500 mt-2">God consistently bypasses human priority. Click a bar to see the specific generation's reversal.</p>
+            </div>
+            <div class="chart-container mb-12">
+                <canvas id="patChart"></canvas>
+            </div>
+            <div id="patDetails" class="bg-white p-10 rounded-[2.5rem] border border-[#d7ccc8] shadow-sm max-w-3xl mx-auto fade-in">
+                <div class="flex items-center gap-6 mb-6">
+                    <div id="patIcon" class="text-5xl bg-[#fcfbf9] p-4 rounded-3xl">🌱</div>
+                    <div>
+                        <h3 id="patTitle" class="text-2xl font-bold text-[#3e2723]">The Chosen Younger</h3>
+                        <p id="patVerse" class="text-[10px] font-black text-[#b8860b] uppercase tracking-widest mt-1">Ref: Selected Story</p>
+                    </div>
+                </div>
+                <p id="patDesc" class="text-lg text-gray-600 leading-relaxed italic">Click a pair on the chart above to explore how God worked in their generation.</p>
+            </div>
+        </div>
+
+        <!-- TAB: OT Links -->
+        <div id="links" class="tab-content">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#3e2723]">Broader Biblical Links</h2>
+                <p class="text-gray-500 mt-2">Instances of the "Great Reversal" beyond the book of Genesis.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl border border-[#d7ccc8] hover:shadow-lg transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="font-bold text-[#3e2723] text-xl">David vs. Eliab</h4>
+                        <span class="text-2xl group-hover:rotate-12 transition">👑</span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">The prophet Samuel assumed the tall firstborn Eliab was the chosen king. God reminded him: "Man looks at the outward appearance, but the LORD looks at the heart."</p>
+                    <a href="javascript:void(0)" onclick="alert('Navigate to 1 Samuel 16')" class="inline-block text-[10px] font-black text-[#b8860b] uppercase tracking-widest border-b-2 border-transparent hover:border-[#b8860b]">Read 1 Samuel 16 →</a>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-[#d7ccc8] hover:shadow-lg transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="font-bold text-[#3e2723] text-xl">Gideon the Least</h4>
+                        <span class="text-2xl group-hover:rotate-12 transition">⚔️</span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Gideon was the youngest in his family and his family was the weakest in the tribe of Manasseh. God utilized the smallest to achieve the greatest victory over Midian.</p>
+                    <a href="javascript:void(0)" onclick="alert('Navigate to Judges 6')" class="inline-block text-[10px] font-black text-[#b8860b] uppercase tracking-widest border-b-2 border-transparent hover:border-[#b8860b]">Read Judges 6 →</a>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-[#d7ccc8] hover:shadow-lg transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="font-bold text-[#3e2723] text-xl">Moses & Aaron</h4>
+                        <span class="text-2xl group-hover:rotate-12 transition">📜</span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Aaron was the elder brother, yet God chose Moses to be the primary leader, mouthpiece, and lawgiver for the entire nation of Israel during the Exodus.</p>
+                    <a href="javascript:void(0)" onclick="alert('Navigate to Exodus 4')" class="inline-block text-[10px] font-black text-[#b8860b] uppercase tracking-widest border-b-2 border-transparent hover:border-[#b8860b]">Read Exodus 4 →</a>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-[#d7ccc8] hover:shadow-lg transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="font-bold text-[#3e2723] text-xl">Solomon's Heir</h4>
+                        <span class="text-2xl group-hover:rotate-12 transition">🏛️</span>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Solomon was not the eldest son of David. Despite Adonijah’s attempt to seize the throne by right of age, God established Solomon as the heir of the covenant.</p>
+                    <a href="javascript:void(0)" onclick="alert('Navigate to 1 Kings 1')" class="inline-block text-[10px] font-black text-[#b8860b] uppercase tracking-widest border-b-2 border-transparent hover:border-[#b8860b]">Read 1 Kings 1 →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: Reflection -->
+        <div id="reflection" class="tab-content">
+            <div class="max-w-3xl mx-auto space-y-12">
+                <div class="text-center">
+                    <h2 class="text-4xl font-serif font-bold text-[#3e2723] mb-4">Practical Reflections</h2>
+                    <p class="text-gray-500">How do we apply this ancient crossover to our lives today?</p>
+                </div>
+                
+                <div class="grid gap-6">
+                    <div class="bg-white p-8 rounded-[2rem] border-2 border-[#efebe9]">
+                        <h4 class="font-bold text-[#b8860b] uppercase text-xs tracking-widest mb-2">Grace vs. Merit</h4>
+                        <p class="text-gray-700 leading-relaxed">Jacob's blessing reminds us that God's favor is a gift (Grace), not something earned by birth order or strength. Are we relying on our "natural advantages" or resting in God's choice?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-[2rem] border-2 border-[#efebe9]">
+                        <h4 class="font-bold text-[#b8860b] uppercase text-xs tracking-widest mb-2">Prophetic Vision</h4>
+                        <p class="text-gray-700 leading-relaxed">Jacob was blind but saw clearly. Joseph saw but was mistaken. True insight comes from hearing God's voice, not just analyzing physical evidence. How do we cultivate "eyes of the heart"?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-[2rem] border-2 border-[#efebe9]">
+                        <h4 class="font-bold text-[#b8860b] uppercase text-xs tracking-widest mb-2">The Gift of Adoption</h4>
+                        <p class="text-gray-700 leading-relaxed">Jacob chose to make the Egyptian-born boys his own. Similarly, through Christ, we who were "outsiders" are adopted into the family of God with full inheritance rights.</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#3e2723] p-12 rounded-[3rem] text-center text-white">
+                    <h3 class="text-2xl font-serif mb-4 italic">Meditation</h3>
+                    <p class="text-lg opacity-80 mb-6">"By faith Jacob, when he was dying, blessed each of Joseph’s sons..."</p>
+                    <div class="text-xs uppercase tracking-widest font-black text-[#b8860b]">Hebrews 11:21</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white py-12 border-t border-[#d7ccc8] text-center text-[10px] uppercase tracking-widest font-black text-[#d7ccc8]">
+        Genesis 48 • Interactive Study Guide • Narrative & Theological Analysis
+    </footer>
+
+    <script>
+        // --- Navigation Logic ---
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab-btn'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('btn-' + id).classList.add('active-tab-btn');
+            if (id === 'pattern') initChart();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // --- Cast Detail Logic ---
+        const charContent = {
+            jacob: "Jacob acts as the prophet-judge, ensuring the covenant continues through a specific line rather than human tradition.",
+            joseph: "Joseph is the bridge, bringing his Egyptian sons to be fully grafted into the history and promise of Israel.",
+            manasseh: "Name means 'To Forget.' He represents the past. Though the firstborn, he receives the secondary blessing.",
+            ephraim: "Name means 'Fruitful.' He represents the future. He is chosen to be the greater tribe in Israel's history."
+        };
+        function showChar(id) {
+            const display = document.getElementById('castDetail');
+            document.getElementById('castDetailText').innerText = charContent[id];
+            display.classList.remove('hidden');
+        }
+
+        // --- Story Narrative Logic ---
+        const steps = [
+            { title: "1. The Call", content: "Joseph receives news that his father is failing. He immediately brings his two sons, seeking a final spiritual legacy." },
+            { title: "2. The Adoption", content: "Jacob declares: 'Your two sons born to you in Egypt... are mine.' He formally adopts them as his own immediate heirs." },
+            { title: "3. The Meeting", content: "Jacob kisses the boys. He tells Joseph, 'I never expected to see your face again, and now God has shown me your children also.'" },
+            { title: "4. The Crossing", content: "As Joseph tries to position his sons by age, Jacob reaches across his own body, placing his right hand on the younger, Ephraim." },
+            { title: "5. The Blessing", content: "Jacob refuses to move his hands, prophesying: 'His younger brother shall be greater than he, and his offspring shall become a multitude of nations.'" }
+        ];
+        function showStep(idx) {
+            const display = document.getElementById('storyDisplay');
+            document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('bg-[#efebe9]', 'border-[#b8860b]'));
+            display.innerHTML = `
+                <div class="fade-in">
+                    <h3 class="text-3xl font-serif font-bold text-[#3e2723] mb-6">${steps[idx].title}</h3>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto italic font-light">"${steps[idx].content}"</p>
+                </div>
+            `;
+        }
+        showStep(0);
+
+        // --- Simulator Logic ---
+        function simAct(mode) {
+            const hR = document.getElementById('hR');
+            const hL = document.getElementById('hL');
+            const lM = document.getElementById('lblM');
+            const lE = document.getElementById('lblE');
+            const quote = document.getElementById('actQuote');
+
+            const pL = "calc(25% - 28px)";
+            const pR = "calc(75% - 28px)";
+            const y = "280px";
+
+            if (mode === 'tradition') {
+                hR.style.left = pL; hR.style.top = y;
+                hL.style.left = pR; hL.style.top = y;
+                lM.innerText = "GREATER"; lM.className = "mt-2 text-[8px] py-1 px-2 rounded bg-yellow-900 text-yellow-200 font-bold";
+                lE.innerText = "LESSER"; lE.className = "mt-2 text-[8px] py-1 px-2 rounded bg-gray-700 text-gray-400 font-bold";
+                quote.innerText = "Joseph: 'Not so, my father...'";
+            } else {
+                hR.style.left = pR; hR.style.top = y;
+                hL.style.left = pL; hL.style.top = y;
+                lE.innerText = "GREATER"; lE.className = "mt-2 text-[8px] py-1 px-2 rounded bg-yellow-900 text-yellow-200 font-bold";
+                lM.innerText = "LESSER"; lM.className = "mt-2 text-[8px] py-1 px-2 rounded bg-gray-700 text-gray-400 font-bold";
+                quote.innerText = "Jacob: 'I know, my son, I know.'";
+            }
+        }
+        setTimeout(() => simAct('revelation'), 800);
+
+        // --- Pattern Chart Logic ---
+        const patList = [
+            { title: "Abel vs Cain", icon: "🐏", ref: "Gen 4", desc: "The sacrifice of the younger was accepted, signaling that God values the heart over human status." },
+            { title: "Isaac vs Ishmael", icon: "📜", ref: "Gen 21", desc: "The son of promise inherits the covenant instead of the firstborn son of nature." },
+            { title: "Jacob vs Esau", icon: "🥣", ref: "Gen 25", desc: "The famous reversal where 'the older shall serve the younger,' establishing the line of Israel." },
+            { title: "Joseph vs Brothers", icon: "🧥", ref: "Gen 37", desc: "The 11th son is chosen to rule over his elder brothers and receive the double portion inheritance." },
+            { title: "Ephraim vs Manasseh", icon: "🤚", ref: "Gen 48", desc: "Jacob explicitly crosses his hands to bless the younger, cementing the book's final reversal motif." }
+        ];
+
+        let chart;
+        function initChart() {
+            if (chart) return;
+            const ctx = document.getElementById('patChart').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: patList.map(p => p.title),
+                    datasets: [{
+                        data: [1, 1, 1, 1, 1],
+                        backgroundColor: '#d7ccc8',
+                        hoverBackgroundColor: '#b8860b',
+                        borderRadius: 12
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    onClick: (e) => {
+                        const pts = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+                        if (pts.length) updatePatBox(pts[0].index);
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { enabled: false } // REMOVED "1" CONFUSION BY DISABLING TOOLTIP
+                    },
+                    scales: { y: { display: false }, x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } } }
+                }
+            });
+        }
+
+        function updatePatBox(idx) {
+            const item = patList[idx];
+            document.getElementById('patIcon').innerText = item.icon;
+            document.getElementById('patTitle').innerText = item.title;
+            document.getElementById('patDesc').innerText = item.desc;
+            document.getElementById('patVerse').innerText = `Ref: ${item.ref}`;
+            const box = document.getElementById('patDetails');
+            box.classList.remove('fade-in');
+            void box.offsetWidth;
+            box.classList.add('fade-in');
+        }
+    </script>
+</body>
+</html>
